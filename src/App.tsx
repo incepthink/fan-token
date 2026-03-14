@@ -30,7 +30,7 @@ const App = () => (
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
+            <BrowserRouter basename="/examples/fan-tokens">
               <Routes>
                 <Route path="/" element={<ExplorePage />} />
                 <Route path="/artist/login" element={<ArtistLoginPage />} />

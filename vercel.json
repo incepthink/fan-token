@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/examples/fan-tokens/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/examples/fan-tokens/:path*", "destination": "/index.html" },
+    { "source": "/examples/fan-tokens", "destination": "/index.html" }
+  ]
+}
