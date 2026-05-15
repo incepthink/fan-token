@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
+import Cookies from "js-cookie";
 import {
   allTasks,
   mockApprovals,
@@ -11,12 +12,14 @@ interface AppState {
   isArtistLoggedIn: boolean;
   tasks: Task[];
   approvals: Approval[];
+  walletUser: any | null;
   setArtistLoggedIn: (v: boolean) => void;
   completeTask: (taskId: string) => void;
   submitForReview: (taskId: string) => void;
   approveSubmission: (approvalId: string) => void;
   rejectSubmission: (approvalId: string) => void;
   addTask: (task: Task) => void;
+  setWalletUser: (u: any | null) => void;
 }
 
 const AppContext = createContext<AppState | null>(null);
@@ -25,6 +28,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isArtistLoggedIn, setArtistLoggedIn] = useState(false);
   const [tasks, setTasks] = useState<Task[]>(allTasks);
   const [approvals, setApprovals] = useState<Approval[]>(mockApprovals);
+  const [walletUser, setWalletUser] = useState<any | null>(() => {
+    const raw = Cookies.get("safty_user_instance");
+    try {
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  });
 
   const completeTask = useCallback((taskId: string) => {
     setTasks((prev) =>
@@ -68,12 +79,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         isArtistLoggedIn,
         tasks,
         approvals,
+        walletUser,
         setArtistLoggedIn,
         completeTask,
         submitForReview,
         approveSubmission,
         rejectSubmission,
         addTask,
+        setWalletUser,
       }}
     >
       {children}
